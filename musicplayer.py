@@ -8,12 +8,6 @@
 # Copyright:   (c) Droy - rishabh roy @    rishabhbhsixfeet@gmail.com
 # Licence:     <My irc nick name is droy >
 #-------------------------------------------------------------------------------
-
-def main():
-    pass
-
-if __name__ == '__main__':
-    main()
 from Tkinter import *
 import mp3play
 import tkFileDialog
