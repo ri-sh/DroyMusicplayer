@@ -1,0 +1,145 @@
+@import "../../../sass/main";
+.mat-table {
+  overflow-x:auto;
+ color: #0A0A0A;  
+}
+.mat-column-select {
+  overflow: visible; 
+}
+#customWidth{
+   flex:0 .5 120px;
+   justify-content: center;
+   align-items: center;
+   align-self: center;
+   padding:2px;
+}
+.container_toolbar{
+  max-height: 45px;
+}
+.selectedRow{
+  &:hover {
+  color: #607D8B;
+  background-color:#EEEEEE;
+  border-left: 6px solid black;
+  left: .1em;
+}
+&.selected{
+  z-index:-4;
+  background-color: #BBD8DC !important;
+  color: white;
+  :hover {
+  background-color: #BBD8DC !important;
+   
+  border-left: 6px solid turquoise;
+   
+  color: black;
+}
+}
+}
+
+.category_Picker{
+  max-height:45px!important;
+}
+.selectionText{
+ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;             
+}
+.comparisonText{
+  padding-top:20px;
+  padding-left:140px;
+ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;             
+
+}
+.mat-cell{
+  text-align: center;
+}
+.pagination{
+  margin-left:0px !important;
+  margin:10px;
+  font-size:18px;
+}
+.pagination>li>a{
+  cursor:pointer;
+  padding:6px !important;
+}
+.Category_Name{
+  min-width:148px;
+}
+.select{
+  max-width:60px !important;
+  min-width: 60px!important;
+}
+.mat-header-cell{
+    //flex:0 .5 120px;
+  padding :5px;
+  text-align: center;
+}
+.mat-button-toggle{
+      font-weight: 700;
+    line-height: 1.7;
+    font-size: 14px;
+}
+.categoryNumber{
+ &.Active{
+background-color: #337ab7 !important;
+  color: white;
+}
+&.Visited{
+background-color: #76c043 !important;  
+  color: white;
+}
+}
+.categoryPicker-text{
+     font-family: Georgia, serif;
+}
+.pagination{
+  @include padding(0px,10px,0px,10px); 
+}
+.comparison{
+text-align:left;
+}
+.button{
+    &-group{
+     display: flex;
+    flex-direction: row;
+    flex:0 0 100%;
+    min-width:100% ; 
+    justify-content: space-between;
+    align-content: space-between;
+    }
+    &__summary{
+        margin-left:auto;
+        margin-right:5px;
+    }   
+}
+.loader {
+    background-image: url('../../../assets/images/walmart-loader.gif');
+    background-repeat: no-repeat;
+    width: 650px !important;
+    height: 300px !important;
+    // filters sidebar has z-index of 399, filter sub header has z-index of 398. 
+    // This should come below the filter sub header.
+     top: 100px;
+    left: -30px;
+    background-size: cover;
+      margin-left:460px !important;
+    
+    
+  }
+ .pageSpinnerMsg{
+    text-align: center;
+    font-size: 200%;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    text-shadow: 2px 2px #000000;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fdbb30;
+    padding: 0;
+     top: 300px;
+ }
+@keyframes load {
+  0% { left: 0; height: 30px; width: 15px }
+  50% { height: 8px; width: 40px }
+  100% { left: 235px; height: 30px; width: 15px}
+}

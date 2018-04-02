@@ -1,0 +1,63 @@
+<div class="container__surveyTracker" fxFill fxLayout="column" fxLayoutAlign="start center" fxFlexAlign="stretch">
+    <div class="heading" fxFlex="6.5" fxFill>
+        <h3 class="heading__text"> SURVEY TRACKER</h3>
+    </div>
+
+    <div class="loader" *ngIf="!displayedColumns_SurveyTable"></div>
+    <div class="pageSpinnerMsg" *ngIf="!displayedColumns_SurveyTable">PLEASE WAIT...</div>
+
+    <div class="container__filter-table" fxFlex fxLayout="column" fxFill *ngIf="displayedColumns_SurveyTable">
+        <div class="example-header" fxLayout="row" fxLayout.xs="row" fxLayoutAlign="space-between center">
+            <div class="container__filter mat-elevation-z6" fxFlex fxLayout="row" fxFill>
+                <!--store,department and status filters-->
+                <mat-form-field>
+                    <mat-select [(value)]="department_filter" placeholder="Department">
+                        <mat-option [value]="''" (click)="applyFilter('')">None</mat-option>
+                        <mat-option [value]="des" (click)="applyFilter('')" *ngFor='let des of distinctDepartments'>{{des}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select [(value)]="store_filter" placeholder="Store">
+                        <mat-option [value]="''" (click)="applyFilter('')">None</mat-option>
+                        <mat-option [value]="des" (click)="applyFilter('')" *ngFor='let des of distinctStores'>{{des}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select [(value)]="status_filter" placeholder="Status">
+                        <mat-option [value]="''" (click)="applyFilter('')">None</mat-option>
+                        <mat-option [value]="des" (click)="applyFilter('')" *ngFor='let des of  distinctStatus'>{{des}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class= "container__paginator">
+                                <mat-paginator #paginator [pageSize]="500" [pageSizeOptions]="[500 ,1000, 200,3]" >
+                </mat-paginator>
+            </div>
+        </div>
+        <!--survey table-->
+        <mat-table class=" mat-elevation-z8" #table [dataSource]="dataSource_SurveyTable" fxFlex>
+            <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns_SurveyTable">
+                <mat-header-cell *matHeaderCellDef [ngClass]="[column]" id="customWidth"> {{column | headerTransform}} </mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngClass]="[column]" id="customWidth"> {{element[column]}} </mat-cell>
+            </ng-container>
+            <!-- Action icon Column -->
+            <ng-container matColumnDef="Action">
+                <mat-header-cell *matHeaderCellDef>
+                    Action
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row ;let rIndex=index">
+                    <button class="viewButton" mat-icon-button [disabled]=" dataSource_SurveyTable.data[rIndex].Status=='Pending'" (click)="rowValue(rIndex)">
+                <mat-icon class="view" [matTooltip]=" dataSource_SurveyTable.data[rIndex].Status=='Pending'? 'View Disabled!':'View'" >
+                    view_list
+                </mat-icon>
+                </button>
+                </mat-cell>
+            </ng-container>
+            <mat-row *matRowDef="let row; columns: displayedColumns_SurveyTable.concat(['Action'])"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns_SurveyTable.concat(['Action'])"></mat-header-row>
+        </mat-table>
+    </div>
+    <div class="button" fxFlex="6.5" fxAlign="center" fxFlexOffset="12px" *ngIf="displayedColumns_SurveyTable">
+        <button mat-raised-button color="primary" [routerLink]="['/traitManager']">Manage Store List</button>
+    </div>
+</div>

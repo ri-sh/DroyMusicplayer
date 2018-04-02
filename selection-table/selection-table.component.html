@@ -1,0 +1,86 @@
+<div class="loader" *ngIf="!displayedColumns_SelectionTable"></div>
+<div class="pageSpinnerMsg" *ngIf="!displayedColumns_SelectionTable">PLEASE WAIT...</div>
+    
+<div class="container_" fxLayout="column" fxLayoutAlign="space-between center" fxFlexAlign="stretch" fxFill fxLayoutGap="10px"
+    *ngIf="displayedColumns_SelectionTable">
+    <div class="container__traitSelection-table" fxLayout="row" fxLayout.xs="row" fxFill fxLayoutAlign="space-between start"
+        fxFlex="auto">
+        <div class="container__selectionTable  mat-elevation-z8" fxFill fxLayout="column" fxFlexOffset.xs="1px" [fxFlex]="currentCatgNumber!='-1'?70:100"
+            fxflex.xs="100%">
+            <div class="container__categoryPicker  mat-elevation-z10" fxflex="5">
+                <mat-toolbar class="categoryPicker-text" fxFlex fxLayout="row" fxLayoutAlign="start center" class="container_toolbar">
+                    <p fxFlex="280px" class="selectionText"> Select a category number: </p>
+                    <div class="category_Picker" fxFlex fxlayout="row">
+                        <ul *ngIf="true" class="pagination" fxFlex fxFlexOffset="30px" fxLayoutAlign="start center">
+                            <li fxFlex="nogrow">
+                                <a (click)="first()">First</a>
+                            </li>
+                            <li fxFlex="nogrow">
+                                <a (click)="previous()">Previous</a>
+                            </li>
+                            <li [ngClass]="{active:currentCatgNumber == '-1'}" fxFlex="nogrow">
+                                <a (click)="getCurCatgData('-1')">All</a>
+                            </li>
+                            <li [fxFlex]="(catg.length>2)?'35px':'50px'" *ngFor="let catg of catgPickerList">
+                                <a fxFill (click)="getCurCatgData(catg)" class="categoryNumber" [class.Active]="currentCatgNumber==catg" [class.Visited]="currentCatgNumber!=catg?((catgLevelData[catg]!=undefined)?true:false):((catgLevelData[catg]==undefined)?true:false)">{{catg}}</a>
+                            </li>
+                            <li fxFlex="nogrow">
+                                <a (click)="next()">Next</a>
+                            </li>
+                            <li fxFlex="nogrow">
+                                <a (click)="last()">Last</a>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-toolbar>
+            </div>
+            <div class= "container__paginator"  *ngIf="displayedColumns_SelectionTable">
+                                <mat-paginator #paginator [pageSize]="500" [pageSizeOptions]="[500 ,1000, 200]" >
+                </mat-paginator>
+            </div>
+            <mat-table #table [dataSource]="dataSource_SelectionTable" *ngIf="displayedColumns_SelectionTable" matSort  fxFlex>
+                <ng-container matColumnDef="select" (click)="clearSelected()" >
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'select'" id="customWidth"   >
+                       <mat-checkbox  color="primary" (click)="$event.stopPropagation()" (change)="clearSelected()" [indeterminate]="checkedTraits.length>0" [checked]="checkedTraits.length">
+                   </mat-checkbox> 
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row ; let rIndex=index;" [ngClass]="'select'" id="customWidth">
+                        <mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="$event ?checkRow( rIndex+ pageIndex*pageSize): null" [(checked)]="row.selected" [disabled]="!row.Rank">
+                        </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns_SelectionTable">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="[column]" id="customWidth"> {{column| headerTransform }} </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="[column]" id="customWidth"> {{element[column]| columnTransform:column }} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="['select'].concat(displayedColumns_SelectionTable)" class="selectedHeaderRow" [ngStyle]="{'width':RowWidth}"></mat-header-row>
+                <mat-row [class.selected]="row.selected" (click)="checkRow( rIndex+ pageIndex*pageSize)" *matRowDef="let row; columns: ['select'].concat(displayedColumns_SelectionTable); let rIndex= index;"
+                    class="selectedRow" [ngStyle]="{'width':RowWidth}"></mat-row>
+            </mat-table>
+        </div>
+        <div class="container__comparisonTable mat-elevation-z8" fxFlexOffset="1.2vw" fxFlex="30%" fxFlex.xs="100%" fxFlexFill *ngIf="currentCatgNumber!='-1'">
+            <mat-toolbar class="container_toolbar">
+                <p class="comparisonText">Comparison Table</p>
+            </mat-toolbar>
+            <mat-table #table [dataSource]="dataSource_ComparisonTable">
+                <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns_ComparisonTable">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="[column]" class="comparison"> {{column}} </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="[column]"class="comparison"> {{element[column] | columnTransform:column| headerTransform}} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns_ComparisonTable"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns_ComparisonTable"></mat-row>
+            </mat-table>
+        </div>
+    </div>
+    <div class="button-group" fxFlex="50px" fxLayout="row">
+        <div class="button__back">
+            <button mat-raised-button (click)="goBack()">Go Back</button>
+        </div>
+        <div class="button__summary">
+            <button class="summary" mat-raised-button color="primary" (click)="summaryButton()" *ngIf="!hideButton && checkedTraits.length">Summary</button>
+        </div>
+        <div class="button__save">
+            <button mat-raised-button color="primary" (click)="saveButton()">Save</button>
+        </div>
+    </div>
+</div>
