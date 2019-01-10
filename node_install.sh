@@ -1,6 +1,5 @@
-
 sudo cp yum.conf /etc/yum.conf
-sudo sudo cp .bashrc ~/.bashrc
+sudo cp .bashrc ~/.bashrc
 source .bashrc
 node_ver='v8.11.3'
 node_source="node-$node_ver-linux-x64.tar.xz"
